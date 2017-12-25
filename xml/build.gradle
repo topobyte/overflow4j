@@ -1,0 +1,11 @@
+if (project.hasProperty("topobyte")) {
+    apply from: 'file:///' + System.getProperty("user.home") \
+        + '/.gradle/topobyte.gradle'
+}
+
+dependencies {
+    compile project(':stackoverflow4j-core')
+
+    testRuntime 'org.slf4j:slf4j-log4j12:1.6.1'
+    testRuntime 'log4j:log4j:1.2.16'
+}
