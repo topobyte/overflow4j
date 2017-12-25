@@ -20,9 +20,10 @@ package de.topobyte.overflow4j.gen;
 public class Config
 {
 
-	static String packageName = "de.topobyte.overflow4j.model";
+	static String packageNameModel = "de.topobyte.overflow4j.model";
+	static String packageNameParsing = "de.topobyte.overflow4j.xml";
 
-	static Spec users = new Spec(packageName, "user");
+	static Spec users = new Spec(packageNameModel, packageNameParsing, "user");
 
 	static {
 		users.defs.add(new Def("long", "id"));

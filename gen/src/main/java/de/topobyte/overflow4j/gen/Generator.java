@@ -37,7 +37,15 @@ public class Generator
 
 	private static void generate(Spec spec) throws IOException
 	{
-		Builder builder = TypeSpec.classBuilder(Defs.upperCamel(spec.name))
+		generateModelClass(spec);
+		generateHandler(spec);
+		generateReader(spec);
+	}
+
+	private static void generateModelClass(Spec spec) throws IOException
+	{
+		String className = Defs.upperCamel(spec.name);
+		Builder builder = TypeSpec.classBuilder(className)
 				.addModifiers(Modifier.PUBLIC);
 
 		for (Def def : spec.defs) {
@@ -55,7 +63,40 @@ public class Generator
 
 		TypeSpec result = builder.build();
 
-		JavaFile javaFile = JavaFile.builder(spec.packageName, result).build();
+		JavaFile javaFile = JavaFile.builder(spec.packageNameModel, result)
+				.build();
+
+		javaFile.writeTo(System.out);
+	}
+
+	private static void generateHandler(Spec spec) throws IOException
+	{
+		String className = Defs.upperCamel(spec.name) + "Handler";
+		Builder builder = TypeSpec.classBuilder(className)
+				.addModifiers(Modifier.PUBLIC);
+
+		// TODO: implement this
+
+		TypeSpec result = builder.build();
+
+		JavaFile javaFile = JavaFile.builder(spec.packageNameParsing, result)
+				.build();
+
+		javaFile.writeTo(System.out);
+	}
+
+	private static void generateReader(Spec spec) throws IOException
+	{
+		String className = Defs.upperCamel(spec.name) + "Reader";
+		Builder builder = TypeSpec.classBuilder(className)
+				.addModifiers(Modifier.PUBLIC);
+
+		// TODO: implement this
+
+		TypeSpec result = builder.build();
+
+		JavaFile javaFile = JavaFile.builder(spec.packageNameParsing, result)
+				.build();
 
 		javaFile.writeTo(System.out);
 	}

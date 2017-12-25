@@ -23,13 +23,15 @@ import java.util.List;
 public class Spec
 {
 
-	String packageName;
+	String packageNameModel;
+	String packageNameParsing;
 	String name;
 	List<Def> defs = new ArrayList<>();
 
-	public Spec(String packageName, String name)
+	public Spec(String packageNameModel, String packageNameParsing, String name)
 	{
-		this.packageName = packageName;
+		this.packageNameModel = packageNameModel;
+		this.packageNameParsing = packageNameParsing;
 		this.name = name;
 	}
 
