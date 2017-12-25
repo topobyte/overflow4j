@@ -1,0 +1,7 @@
+#!/bin/bash
+
+DIR=$(dirname $0)
+CMD="$DIR/overflow4j.sh"
+CLASS="de.topobyte.overflow4j.cli.Overflow4jCli"
+
+exec "$CMD" "$CLASS" "$@"
