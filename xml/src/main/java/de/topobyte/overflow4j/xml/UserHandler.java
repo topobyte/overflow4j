@@ -3,6 +3,9 @@ package de.topobyte.overflow4j.xml;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import de.topobyte.overflow4j.model.User;
 import de.topobyte.xml.dynsax.Child;
 import de.topobyte.xml.dynsax.ChildType;
@@ -59,6 +62,9 @@ public class UserHandler extends DynamicSaxHandler
 		return users;
 	}
 
+	private DateTimeFormatter format = DateTimeFormat
+			.forPattern("YYYY-MM-dd'T'HH:mm:ss.SSS").withZoneUTC();
+
 	@Override
 	public void emit(Data data)
 	{
@@ -79,9 +85,9 @@ public class UserHandler extends DynamicSaxHandler
 			User user = new User();
 			user.setId(Long.parseLong(id));
 			user.setReputation(Integer.parseInt(reputation));
-			// TODO: parse creationDate
+			user.setCreationDate(format.parseDateTime(creationDate));
 			user.setDisplayName(displayName);
-			// TODO: parse lastAccessDate
+			user.setLastAccessDate(format.parseDateTime(lastAccessDate));
 			user.setWebsiteUrl(websiteUrl);
 			user.setLocation(location);
 			if (age != null) {
