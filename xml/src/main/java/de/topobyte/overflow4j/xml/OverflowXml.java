@@ -19,7 +19,6 @@ package de.topobyte.overflow4j.xml;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -27,6 +26,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import de.topobyte.melon.io.StreamUtil;
 import de.topobyte.overflow4j.model.User;
 
 public class OverflowXml
@@ -34,7 +34,7 @@ public class OverflowXml
 
 	private static InputStream reader(Path path) throws IOException
 	{
-		return Files.newInputStream(path);
+		return StreamUtil.bufferedInputStream(path);
 	}
 
 	public static UsersReader createAgencyReader(Path path) throws IOException
