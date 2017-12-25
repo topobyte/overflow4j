@@ -19,7 +19,6 @@ package de.topobyte.overflow4j.cli;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -27,6 +26,7 @@ import org.xml.sax.SAXException;
 
 import de.topobyte.overflow4j.model.User;
 import de.topobyte.overflow4j.xml.OverflowXml;
+import de.topobyte.overflow4j.xml.UserHandler;
 
 public class ShowUsers
 {
@@ -41,12 +41,16 @@ public class ShowUsers
 	public void execute()
 			throws IOException, ParserConfigurationException, SAXException
 	{
-		List<User> data = OverflowXml.readUsers(pathInput);
+		OverflowXml.readUsers(pathInput, new UserHandler.Consumer() {
 
-		for (User user : data) {
-			System.out.println(String.format("%s: %s (%s)", user.getId(),
-					user.getDisplayName(), user.getLocation()));
-		}
+			@Override
+			public void handle(User user)
+			{
+				System.out.println(String.format("%s: %s (%s)", user.getId(),
+						user.getDisplayName(), user.getLocation()));
+			}
+
+		});
 	}
 
 }
