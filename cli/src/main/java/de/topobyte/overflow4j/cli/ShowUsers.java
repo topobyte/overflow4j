@@ -46,8 +46,16 @@ public class ShowUsers
 			@Override
 			public void handle(User user)
 			{
-				System.out.println(String.format("%s: %s (%s)", user.getId(),
-						user.getDisplayName(), user.getLocation()));
+				StringBuilder strb = new StringBuilder();
+				strb.append(String.format("%8d: %6d rep, %s", user.getId(),
+						user.getReputation(), user.getDisplayName()));
+				if (user.getLocation() != null
+						&& !user.getLocation().isEmpty()) {
+					strb.append(" (");
+					strb.append(user.getLocation());
+					strb.append(")");
+				}
+				System.out.println(strb.toString());
 			}
 
 		});
