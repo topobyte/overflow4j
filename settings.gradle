@@ -1,4 +1,4 @@
 include 'core', 'xml', 'cli'
-project(':core').name = 'stackoverflow4j-core'
-project(':xml').name = 'stackoverflow4j-xml'
-project(':cli').name = 'stackoverflow4j-cli'
+project(':core').name = 'overflow4j-core'
+project(':xml').name = 'overflow4j-xml'
+project(':cli').name = 'overflow4j-cli'

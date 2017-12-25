@@ -1,5 +1,5 @@
 dependencies {
-    compile project(':stackoverflow4j-xml')
+    compile project(':overflow4j-xml')
 
     compile 'de.topobyte:commons-cli-helper:0.0.6'
 

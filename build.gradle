@@ -20,8 +20,8 @@ subprojects {
     }
 }
 
-configure([project(':stackoverflow4j-core'),
-        project(':stackoverflow4j-xml')]) {
+configure([project(':overflow4j-core'),
+        project(':overflow4j-xml')]) {
 
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
