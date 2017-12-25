@@ -1,4 +1,6 @@
 include 'core', 'xml', 'cli'
+include 'gen'
 project(':core').name = 'overflow4j-core'
 project(':xml').name = 'overflow4j-xml'
 project(':cli').name = 'overflow4j-cli'
+project(':gen').name = 'overflow4j-gen'
