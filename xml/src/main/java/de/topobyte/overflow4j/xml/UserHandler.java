@@ -17,9 +17,6 @@
 
 package de.topobyte.overflow4j.xml;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -32,6 +29,13 @@ import de.topobyte.xml.dynsax.Element;
 
 public class UserHandler extends DynamicSaxHandler
 {
+
+	public static interface Consumer
+	{
+
+		void handle(User user);
+
+	}
 
 	public static final String ATTR_ID = "Id";
 	public static final String ATTR_REPUTATION = "Reputation";
@@ -49,10 +53,11 @@ public class UserHandler extends DynamicSaxHandler
 	private Element eUsers;
 	private Element eRow;
 
-	private List<User> users = new ArrayList<>();
+	private Consumer consumer;
 
-	public UserHandler()
+	public UserHandler(Consumer consumer)
 	{
+		this.consumer = consumer;
 		eUsers = new Element("users", false);
 		eRow = new Element("row", false);
 
@@ -72,11 +77,6 @@ public class UserHandler extends DynamicSaxHandler
 		eRow.addAttribute(ATTR_DOWN_VOTES);
 
 		setRoot(eUsers, false);
-	}
-
-	public List<User> getUsers()
-	{
-		return users;
 	}
 
 	private DateTimeFormatter format = DateTimeFormat
@@ -114,7 +114,7 @@ public class UserHandler extends DynamicSaxHandler
 			user.setViews(Integer.parseInt(views));
 			user.setUpVotes(Integer.parseInt(upVotes));
 			user.setDownVotes(Integer.parseInt(downVotes));
-			users.add(user);
+			consumer.handle(user);
 		}
 	}
 

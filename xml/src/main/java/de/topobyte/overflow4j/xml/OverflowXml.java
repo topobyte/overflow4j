@@ -56,4 +56,14 @@ public class OverflowXml
 		return list;
 	}
 
+	public static void readUsers(Path path, UserHandler.Consumer consumer)
+			throws IOException, ParserConfigurationException, SAXException
+	{
+		InputStream is = reader(path);
+
+		UsersReader reader = new UsersReader(is);
+		reader.read(consumer);
+		reader.close();
+	}
+
 }
