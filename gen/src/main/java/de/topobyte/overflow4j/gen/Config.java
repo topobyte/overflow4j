@@ -20,6 +20,8 @@ package de.topobyte.overflow4j.gen;
 public class Config
 {
 
+	// TODO: add support for null-check, needed for 'age'
+
 	static String packageNameModel = "de.topobyte.overflow4j.model";
 	static String packageNameParsing = "de.topobyte.overflow4j.xml";
 
