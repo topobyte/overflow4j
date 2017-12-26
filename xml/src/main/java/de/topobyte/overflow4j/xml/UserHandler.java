@@ -34,18 +34,18 @@ public class UserHandler extends DynamicSaxHandler
 
 	}
 
-	public static final String ATTR_ID = "Id";
-	public static final String ATTR_REPUTATION = "Reputation";
-	public static final String ATTR_CREATION_DATE = "CreationDate";
-	public static final String ATTR_DISPLAY_NAME = "DisplayName";
-	public static final String ATTR_LAST_ACCESS_DATE = "LastAccessDate";
-	public static final String ATTR_WEBSITE_URL = "WebsiteUrl";
-	public static final String ATTR_LOCATION = "Location";
-	public static final String ATTR_AGE = "Age";
-	public static final String ATTR_ABOUT_ME = "AboutMe";
-	public static final String ATTR_VIEWS = "Views";
-	public static final String ATTR_UP_VOTES = "UpVotes";
-	public static final String ATTR_DOWN_VOTES = "DownVotes";
+	private static final String ATTR_ID = "Id";
+	private static final String ATTR_REPUTATION = "Reputation";
+	private static final String ATTR_CREATION_DATE = "CreationDate";
+	private static final String ATTR_DISPLAY_NAME = "DisplayName";
+	private static final String ATTR_LAST_ACCESS_DATE = "LastAccessDate";
+	private static final String ATTR_WEBSITE_URL = "WebsiteUrl";
+	private static final String ATTR_LOCATION = "Location";
+	private static final String ATTR_AGE = "Age";
+	private static final String ATTR_ABOUT_ME = "AboutMe";
+	private static final String ATTR_VIEWS = "Views";
+	private static final String ATTR_UP_VOTES = "UpVotes";
+	private static final String ATTR_DOWN_VOTES = "DownVotes";
 
 	private Element eUsers;
 	private Element eRow;
