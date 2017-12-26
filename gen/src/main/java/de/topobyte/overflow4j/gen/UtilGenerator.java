@@ -64,7 +64,8 @@ public class UtilGenerator
 
 		builder.addMethod(MethodSpec.methodBuilder("reader")
 				.addException(IOException.class).returns(InputStream.class)
-				.addModifiers(Modifier.PRIVATE).addParameter(Path.class, "path")
+				.addModifiers(Modifier.PRIVATE).addModifiers(Modifier.STATIC)
+				.addParameter(Path.class, "path")
 				.addStatement("return $T.bufferedInputStream(path)",
 						classStreamUtil)
 				.build());
@@ -79,7 +80,7 @@ public class UtilGenerator
 				.methodBuilder("create" + single + "Reader")
 				.addException(IOException.class)
 				.returns(typeGen.getClassReader()).addModifiers(Modifier.PUBLIC)
-				.addParameter(Path.class, "path");
+				.addModifiers(Modifier.STATIC).addParameter(Path.class, "path");
 
 		createReader.addStatement("$T is = reader(path)", InputStream.class);
 		createReader.addCode("\n");
@@ -94,7 +95,8 @@ public class UtilGenerator
 				.addException(IOException.class)
 				.addException(ParserConfigurationException.class)
 				.addException(SAXException.class).returns(list)
-				.addModifiers(Modifier.PUBLIC).addParameter(Path.class, "path");
+				.addModifiers(Modifier.PUBLIC).addModifiers(Modifier.STATIC)
+				.addParameter(Path.class, "path");
 
 		read1.addStatement("$T is = reader(path)", InputStream.class);
 		read1.addCode("\n");
@@ -108,7 +110,8 @@ public class UtilGenerator
 				.addException(IOException.class)
 				.addException(ParserConfigurationException.class)
 				.addException(SAXException.class).returns(void.class)
-				.addModifiers(Modifier.PUBLIC).addParameter(Path.class, "path")
+				.addModifiers(Modifier.PUBLIC).addModifiers(Modifier.STATIC)
+				.addParameter(Path.class, "path")
 				.addParameter(typeGen.getClassConsumer(), "consumer");
 
 		read2.addStatement("$T is = reader(path)", InputStream.class);
