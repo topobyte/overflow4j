@@ -23,7 +23,8 @@ public class Config
 	static String packageNameModel = "de.topobyte.overflow4j.model";
 	static String packageNameParsing = "de.topobyte.overflow4j.xml";
 
-	static Spec users = new Spec(packageNameModel, packageNameParsing, "user");
+	static Spec users = new Spec(packageNameModel, packageNameParsing, "user",
+			"users");
 
 	static {
 		users.defs.add(new Def("long", "id"));

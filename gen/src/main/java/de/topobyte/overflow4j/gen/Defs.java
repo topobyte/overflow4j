@@ -47,6 +47,17 @@ public class Defs
 		return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, lowerCamel);
 	}
 
+	static String upper(String lowerCamel)
+	{
+		return CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_UNDERSCORE,
+				lowerCamel);
+	}
+
+	static String attributeName(Def def)
+	{
+		return "ATTR_" + upper(def.getName());
+	}
+
 	private static TypeName typeName(Def def)
 	{
 		String type = def.getType();
@@ -80,9 +91,15 @@ public class Defs
 		builder.addModifiers(Modifier.PUBLIC);
 		builder.addParameter(typeName(def), def.getName());
 		builder.returns(TypeName.VOID);
-		builder.addStatement(
-				String.format("this.%s = %s", def.getName(), def.getName()));
+		builder.addStatement("this.$L = $L", def.getName(), def.getName());
 		return builder.build();
+	}
+
+	public static FieldSpec attr(Def def)
+	{
+		return FieldSpec.builder(String.class, attributeName(def))
+				.addModifiers(Modifier.PRIVATE, Modifier.STATIC, Modifier.FINAL)
+				.initializer("$S", upperCamel(def.getName())).build();
 	}
 
 }

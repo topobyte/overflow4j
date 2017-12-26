@@ -26,13 +26,16 @@ public class Spec
 	String packageNameModel;
 	String packageNameParsing;
 	String name;
+	String rootElementName;
 	List<Def> defs = new ArrayList<>();
 
-	public Spec(String packageNameModel, String packageNameParsing, String name)
+	public Spec(String packageNameModel, String packageNameParsing, String name,
+			String rootElementName)
 	{
 		this.packageNameModel = packageNameModel;
 		this.packageNameParsing = packageNameParsing;
 		this.name = name;
+		this.rootElementName = rootElementName;
 	}
 
 }
