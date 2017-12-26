@@ -46,8 +46,8 @@ public class Config
 		tags.defs.add(new Def("int", "id"));
 		tags.defs.add(new Def("String", "tagName"));
 		tags.defs.add(new Def("int", "count"));
-		tags.defs.add(new Def("int", "excerptPostId"));
-		tags.defs.add(new Def("int", "wikiPostId"));
+		tags.defs.add(new Def("int", "excerptPostId", true));
+		tags.defs.add(new Def("int", "wikiPostId", true));
 	}
 
 }
