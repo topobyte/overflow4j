@@ -24,10 +24,10 @@ public class Config
 	static String packageNameParsing = "de.topobyte.overflow4j.xml";
 
 	static Spec users = new Spec(packageNameModel, packageNameParsing, "user",
-			"users");
+			"users", "users");
 
 	static Spec tags = new Spec(packageNameModel, packageNameParsing, "tag",
-			"tags");
+			"tags", "tags");
 
 	static {
 		users.defs.add(new Def("long", "id"));

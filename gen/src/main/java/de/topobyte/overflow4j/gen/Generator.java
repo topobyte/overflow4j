@@ -36,7 +36,8 @@ public class Generator
 
 		UtilGenerator utilGenerator = new UtilGenerator(
 				Config.packageNameParsing, xml);
-		utilGenerator.generate(genUsers);
+		utilGenerator.generate(genUsers, Config.users);
+		utilGenerator.generate(genTags, Config.tags);
 		utilGenerator.finish();
 
 		genUsers.generate();
