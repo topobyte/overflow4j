@@ -22,11 +22,18 @@ public class Def
 
 	private String type;
 	private String name;
+	private boolean checkNotNull;
 
 	public Def(String type, String name)
 	{
+		this(type, name, false);
+	}
+
+	public Def(String type, String name, boolean checkNotNull)
+	{
 		this.type = type;
 		this.name = name;
+		this.checkNotNull = checkNotNull;
 	}
 
 	public String getType()
@@ -37,6 +44,11 @@ public class Def
 	public String getName()
 	{
 		return name;
+	}
+
+	public boolean isCheckNotNull()
+	{
+		return checkNotNull;
 	}
 
 }

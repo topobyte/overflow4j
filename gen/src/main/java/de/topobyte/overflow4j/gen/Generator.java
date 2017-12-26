@@ -256,6 +256,9 @@ public class Generator
 		emit.addCode("\n");
 
 		for (Def def : spec.defs) {
+			if (def.isCheckNotNull()) {
+				emit.beginControlFlow("if ($L != null)", def.getName());
+			}
 			switch (def.getType()) {
 			case "String":
 				emit.addStatement("$L.set$L($L)", var,
@@ -273,6 +276,9 @@ public class Generator
 				emit.addStatement("$L.set$L(Parsers.parseDate($L))", var,
 						Defs.upperCamel(def.getName()), def.getName());
 				break;
+			}
+			if (def.isCheckNotNull()) {
+				emit.endControlFlow();
 			}
 		}
 

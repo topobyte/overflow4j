@@ -20,8 +20,6 @@ package de.topobyte.overflow4j.gen;
 public class Config
 {
 
-	// TODO: add support for null-check, needed for 'age'
-
 	static String packageNameModel = "de.topobyte.overflow4j.model";
 	static String packageNameParsing = "de.topobyte.overflow4j.xml";
 
@@ -36,7 +34,7 @@ public class Config
 		users.defs.add(new Def("org.joda.time.DateTime", "lastAccessDate"));
 		users.defs.add(new Def("String", "websiteUrl"));
 		users.defs.add(new Def("String", "location"));
-		users.defs.add(new Def("int", "age"));
+		users.defs.add(new Def("int", "age", true));
 		users.defs.add(new Def("String", "aboutMe"));
 		users.defs.add(new Def("int", "views"));
 		users.defs.add(new Def("int", "upVotes"));
