@@ -32,12 +32,12 @@ import org.xml.sax.SAXException;
 import de.topobyte.overflow4j.model.User;
 import de.topobyte.overflow4j.xml.UserHandler.Consumer;
 
-public class UsersReader implements Closeable
+public class UserReader implements Closeable
 {
 
 	private InputStream is;
 
-	public UsersReader(InputStream is)
+	public UserReader(InputStream is)
 	{
 		this.is = is;
 	}

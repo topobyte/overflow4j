@@ -37,11 +37,11 @@ public class OverflowXml
 		return StreamUtil.bufferedInputStream(path);
 	}
 
-	public static UsersReader createAgencyReader(Path path) throws IOException
+	public static UserReader createUserReader(Path path) throws IOException
 	{
 		InputStream is = reader(path);
 
-		UsersReader reader = new UsersReader(is);
+		UserReader reader = new UserReader(is);
 		return reader;
 	}
 
@@ -50,7 +50,7 @@ public class OverflowXml
 	{
 		InputStream is = reader(path);
 
-		UsersReader reader = new UsersReader(is);
+		UserReader reader = new UserReader(is);
 		List<User> list = reader.readAll();
 		reader.close();
 		return list;
@@ -61,7 +61,7 @@ public class OverflowXml
 	{
 		InputStream is = reader(path);
 
-		UsersReader reader = new UsersReader(is);
+		UserReader reader = new UserReader(is);
 		reader.read(consumer);
 		reader.close();
 	}
