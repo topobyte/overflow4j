@@ -27,6 +27,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import de.topobyte.melon.io.StreamUtil;
+import de.topobyte.overflow4j.model.Tag;
 import de.topobyte.overflow4j.model.User;
 
 public class OverflowXml
@@ -61,6 +62,35 @@ public class OverflowXml
 		InputStream is = reader(path);
 
 		UserReader reader = new UserReader(is);
+		reader.read(consumer);
+		reader.close();
+	}
+
+	public static TagReader createTagReader(Path path) throws IOException
+	{
+		InputStream is = reader(path);
+
+		TagReader reader = new TagReader(is);
+		return reader;
+	}
+
+	public static List<Tag> readTags(Path path)
+			throws IOException, ParserConfigurationException, SAXException
+	{
+		InputStream is = reader(path);
+
+		TagReader reader = new TagReader(is);
+		List<Tag> list = reader.readAll();
+		reader.close();
+		return list;
+	}
+
+	public static void readTags(Path path, TagHandler.Consumer consumer)
+			throws IOException, ParserConfigurationException, SAXException
+	{
+		InputStream is = reader(path);
+
+		TagReader reader = new TagReader(is);
 		reader.read(consumer);
 		reader.close();
 	}
