@@ -17,7 +17,11 @@
 
 package de.topobyte.overflow4j.gen;
 
+import java.awt.List;
+import java.io.Closeable;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 import javax.lang.model.element.Modifier;
 
@@ -25,6 +29,7 @@ import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
+import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeSpec.Builder;
 
@@ -230,10 +235,76 @@ public class Generator
 	private static void generateReader(Spec spec) throws IOException
 	{
 		String className = Defs.upperCamel(spec.name) + "Reader";
+
+		String modelClassName = Defs.upperCamel(spec.name);
+
+		ClassName classModelClassName = ClassName
+				.bestGuess(spec.packageNameModel + "." + modelClassName);
+
 		Builder builder = TypeSpec.classBuilder(className)
 				.addModifiers(Modifier.PUBLIC);
 
-		// TODO: implement this
+		builder.addSuperinterface(Closeable.class);
+
+		/*
+		 * Fields
+		 */
+
+		FieldSpec is = FieldSpec
+				.builder(InputStream.class, "is", Modifier.PRIVATE).build();
+		builder.addField(is);
+
+		/*
+		 * Constructor
+		 */
+
+		MethodSpec.Builder constructor = MethodSpec.constructorBuilder()
+				.addModifiers(Modifier.PUBLIC)
+				.addParameter(InputStream.class, "is");
+		constructor.addStatement("this.is = is");
+
+		builder.addMethod(constructor.build());
+
+		/*
+		 * readAll()
+		 */
+
+		MethodSpec.Builder readAll = MethodSpec.methodBuilder("readAll")
+				.addModifiers(Modifier.PUBLIC);
+
+		readAll.addStatement(
+				"final $T results = new $T<>()", ParameterizedTypeName
+						.get(ClassName.get(List.class), classModelClassName),
+				ArrayList.class);
+
+		// TODO: finish implementing this
+
+		readAll.addStatement("return results");
+
+		builder.addMethod(readAll.build());
+
+		/*
+		 * read()
+		 */
+
+		MethodSpec.Builder read = MethodSpec.methodBuilder("read")
+				.addModifiers(Modifier.PUBLIC);
+		builder.addMethod(read.build());
+
+		// TODO: finish implementing this
+
+		/*
+		 * close()
+		 */
+
+		builder.addMethod(MethodSpec.methodBuilder("close")
+				.addModifiers(Modifier.PUBLIC).addAnnotation(Override.class)
+				.addException(IOException.class).addStatement("is.close()")
+				.build());
+
+		/*
+		 * 
+		 */
 
 		TypeSpec result = builder.build();
 
