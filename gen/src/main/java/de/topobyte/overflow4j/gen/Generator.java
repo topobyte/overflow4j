@@ -17,13 +17,18 @@
 
 package de.topobyte.overflow4j.gen;
 
-import java.awt.List;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.lang.model.element.Modifier;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.SAXException;
 
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
@@ -78,10 +83,10 @@ public class Generator
 	private static void generateHandler(Spec spec) throws IOException
 	{
 		String className = Defs.upperCamel(spec.name) + "Handler";
-		String modelClassName = Defs.upperCamel(spec.name);
+		String nameClassModel = Defs.upperCamel(spec.name);
 
-		ClassName classModelClassName = ClassName
-				.bestGuess(spec.packageNameModel + "." + modelClassName);
+		ClassName classModel = ClassName
+				.bestGuess(spec.packageNameModel + "." + nameClassModel);
 
 		ClassName classDynamicSaxHandler = ClassName
 				.bestGuess("de.topobyte.xml.dynsax.DynamicSaxHandler");
@@ -106,7 +111,7 @@ public class Generator
 
 		MethodSpec handle = MethodSpec.methodBuilder("handle")
 				.addModifiers(Modifier.ABSTRACT, Modifier.PUBLIC)
-				.addParameter(classModelClassName, spec.name).build();
+				.addParameter(classModel, spec.name).build();
 
 		Builder consumer = TypeSpec.interfaceBuilder("Consumer")
 				.addModifiers(Modifier.PUBLIC).addMethod(handle);
@@ -189,7 +194,7 @@ public class Generator
 		emit.addCode("\n");
 
 		String var = spec.name;
-		emit.addStatement("$1T $2L = new $1T()", classModelClassName, var);
+		emit.addStatement("$1T $2L = new $1T()", classModel, var);
 		emit.addCode("\n");
 
 		for (Def def : spec.defs) {
@@ -235,11 +240,13 @@ public class Generator
 	private static void generateReader(Spec spec) throws IOException
 	{
 		String className = Defs.upperCamel(spec.name) + "Reader";
+		String nameClassHandler = Defs.upperCamel(spec.name) + "Handler";
+		String nameClassModel = Defs.upperCamel(spec.name);
 
-		String modelClassName = Defs.upperCamel(spec.name);
-
-		ClassName classModelClassName = ClassName
-				.bestGuess(spec.packageNameModel + "." + modelClassName);
+		ClassName classModel = ClassName
+				.bestGuess(spec.packageNameModel + "." + nameClassModel);
+		ClassName classHandler = ClassName.bestGuess(nameClassHandler);
+		ClassName classConsumer = classHandler.nestedClass("Consumer");
 
 		Builder builder = TypeSpec.classBuilder(className)
 				.addModifiers(Modifier.PUBLIC);
@@ -269,15 +276,32 @@ public class Generator
 		 * readAll()
 		 */
 
+		ParameterizedTypeName list = ParameterizedTypeName
+				.get(ClassName.get(List.class), classModel);
+
 		MethodSpec.Builder readAll = MethodSpec.methodBuilder("readAll")
-				.addModifiers(Modifier.PUBLIC);
+				.addModifiers(Modifier.PUBLIC).returns(list)
+				.addException(ParserConfigurationException.class)
+				.addException(SAXException.class)
+				.addException(IOException.class);
 
-		readAll.addStatement(
-				"final $T results = new $T<>()", ParameterizedTypeName
-						.get(ClassName.get(List.class), classModelClassName),
+		readAll.addStatement("final $T results = new $T<>()", list,
 				ArrayList.class);
+		readAll.addCode("\n");
 
-		// TODO: finish implementing this
+		String var = spec.name;
+
+		TypeSpec comparator = TypeSpec.anonymousClassBuilder("")
+				.addSuperinterface(classConsumer)
+				.addMethod(MethodSpec.methodBuilder("handle")
+						.addAnnotation(Override.class)
+						.addModifiers(Modifier.PUBLIC)
+						.addParameter(classModel, var).returns(void.class)
+						.addStatement("results.add($L)", var).build())
+				.build();
+
+		readAll.addStatement("read($L)", comparator);
+		readAll.addCode("\n");
 
 		readAll.addStatement("return results");
 
@@ -288,10 +312,22 @@ public class Generator
 		 */
 
 		MethodSpec.Builder read = MethodSpec.methodBuilder("read")
-				.addModifiers(Modifier.PUBLIC);
-		builder.addMethod(read.build());
+				.addModifiers(Modifier.PUBLIC)
+				.addParameter(classConsumer, "consumer")
+				.addException(ParserConfigurationException.class)
+				.addException(SAXException.class)
+				.addException(IOException.class);
 
-		// TODO: finish implementing this
+		read.addStatement("$T saxParser = $T.newInstance().newSAXParser()",
+				SAXParser.class, SAXParserFactory.class);
+		read.addCode("\n");
+
+		read.addStatement("$1T handler = new $1T(consumer)", classHandler);
+		read.addCode("\n");
+
+		read.addStatement("saxParser.parse(is, handler)", comparator);
+
+		builder.addMethod(read.build());
 
 		/*
 		 * close()
