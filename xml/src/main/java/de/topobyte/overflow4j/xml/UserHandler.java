@@ -26,28 +26,32 @@ import de.topobyte.xml.dynsax.Element;
 
 public class UserHandler extends DynamicSaxHandler
 {
-
-	public static interface Consumer
-	{
-
-		void handle(User user);
-
-	}
-
 	private static final String ATTR_ID = "Id";
+
 	private static final String ATTR_REPUTATION = "Reputation";
+
 	private static final String ATTR_CREATION_DATE = "CreationDate";
+
 	private static final String ATTR_DISPLAY_NAME = "DisplayName";
+
 	private static final String ATTR_LAST_ACCESS_DATE = "LastAccessDate";
+
 	private static final String ATTR_WEBSITE_URL = "WebsiteUrl";
+
 	private static final String ATTR_LOCATION = "Location";
+
 	private static final String ATTR_AGE = "Age";
+
 	private static final String ATTR_ABOUT_ME = "AboutMe";
+
 	private static final String ATTR_VIEWS = "Views";
+
 	private static final String ATTR_UP_VOTES = "UpVotes";
+
 	private static final String ATTR_DOWN_VOTES = "DownVotes";
 
 	private Element eUsers;
+
 	private Element eRow;
 
 	private Consumer consumer;
@@ -55,6 +59,7 @@ public class UserHandler extends DynamicSaxHandler
 	public UserHandler(Consumer consumer)
 	{
 		this.consumer = consumer;
+
 		eUsers = new Element("users", false);
 		eRow = new Element("row", false);
 
@@ -94,6 +99,7 @@ public class UserHandler extends DynamicSaxHandler
 			String downVotes = data.getAttribute(ATTR_DOWN_VOTES);
 
 			User user = new User();
+
 			user.setId(Long.parseLong(id));
 			user.setReputation(Integer.parseInt(reputation));
 			user.setCreationDate(Parsers.parseDate(creationDate));
@@ -113,4 +119,8 @@ public class UserHandler extends DynamicSaxHandler
 		}
 	}
 
+	public interface Consumer
+	{
+		void handle(User user);
+	}
 }

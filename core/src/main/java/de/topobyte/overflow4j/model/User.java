@@ -22,16 +22,27 @@ import org.joda.time.DateTime;
 public class User
 {
 	private long id;
+
 	private int reputation;
+
 	private DateTime creationDate;
+
 	private String displayName;
+
 	private DateTime lastAccessDate;
+
 	private String websiteUrl;
+
 	private String location;
+
 	private int age;
+
 	private String aboutMe;
+
 	private int views;
+
 	private int upVotes;
+
 	private int downVotes;
 
 	public long getId()
@@ -153,5 +164,4 @@ public class User
 	{
 		this.downVotes = downVotes;
 	}
-
 }

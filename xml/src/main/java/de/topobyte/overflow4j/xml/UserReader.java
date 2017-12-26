@@ -30,11 +30,9 @@ import javax.xml.parsers.SAXParserFactory;
 import org.xml.sax.SAXException;
 
 import de.topobyte.overflow4j.model.User;
-import de.topobyte.overflow4j.xml.UserHandler.Consumer;
 
 public class UserReader implements Closeable
 {
-
 	private InputStream is;
 
 	public UserReader(InputStream is)
@@ -47,20 +45,18 @@ public class UserReader implements Closeable
 	{
 		final List<User> results = new ArrayList<>();
 
-		read(new Consumer() {
-
+		read(new UserHandler.Consumer() {
 			@Override
 			public void handle(User user)
 			{
 				results.add(user);
 			}
-
 		});
 
 		return results;
 	}
 
-	public void read(Consumer consumer)
+	public void read(UserHandler.Consumer consumer)
 			throws ParserConfigurationException, SAXException, IOException
 	{
 		SAXParser saxParser = SAXParserFactory.newInstance().newSAXParser();
@@ -75,5 +71,4 @@ public class UserReader implements Closeable
 	{
 		is.close();
 	}
-
 }

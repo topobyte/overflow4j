@@ -31,7 +31,6 @@ import de.topobyte.overflow4j.model.User;
 
 public class OverflowXml
 {
-
 	private static InputStream reader(Path path) throws IOException
 	{
 		return StreamUtil.bufferedInputStream(path);
@@ -65,5 +64,4 @@ public class OverflowXml
 		reader.read(consumer);
 		reader.close();
 	}
-
 }
