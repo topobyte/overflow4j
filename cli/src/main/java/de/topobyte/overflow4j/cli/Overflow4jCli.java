@@ -36,6 +36,8 @@ public class Overflow4jCli
 			DelegateExeOptions options = new DelegateExeOptions();
 			options.addCommand("show-users", RunShowUsers.OPTIONS_FACTORY,
 					RunShowUsers.class);
+			options.addCommand("show-tags", RunShowTags.OPTIONS_FACTORY,
+					RunShowTags.class);
 			return options;
 		}
 

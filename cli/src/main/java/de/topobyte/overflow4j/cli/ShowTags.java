@@ -17,15 +17,40 @@
 
 package de.topobyte.overflow4j.cli;
 
+import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
-public class TestPaths
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import de.topobyte.overflow4j.model.Tag;
+import de.topobyte.overflow4j.xml.OverflowXml;
+import de.topobyte.overflow4j.xml.TagHandler;
+
+public class ShowTags
 {
 
-	public static Path pathInput = Paths.get("/tmp/stackoverflow");
+	private Path pathInput;
 
-	public static Path pathInputUsers = pathInput.resolve("Users.xml");
-	public static Path pathInputTags = pathInput.resolve("Tags.xml");
+	public ShowTags(Path pathInput)
+	{
+		this.pathInput = pathInput;
+	}
+
+	public void execute()
+			throws IOException, ParserConfigurationException, SAXException
+	{
+		OverflowXml.readTags(pathInput, new TagHandler.Consumer() {
+
+			@Override
+			public void handle(Tag tag)
+			{
+				System.out.println(String.format("%8d: %6d count, %s",
+						tag.getId(), tag.getCount(), tag.getTagName()));
+			}
+
+		});
+	}
 
 }

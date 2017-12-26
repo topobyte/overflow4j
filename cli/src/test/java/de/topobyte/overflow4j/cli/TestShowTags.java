@@ -17,15 +17,20 @@
 
 package de.topobyte.overflow4j.cli;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
 
-public class TestPaths
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+public class TestShowTags
 {
 
-	public static Path pathInput = Paths.get("/tmp/stackoverflow");
-
-	public static Path pathInputUsers = pathInput.resolve("Users.xml");
-	public static Path pathInputTags = pathInput.resolve("Tags.xml");
+	public static void main(String[] args)
+			throws IOException, ParserConfigurationException, SAXException
+	{
+		ShowTags task = new ShowTags(TestPaths.pathInputTags);
+		task.execute();
+	}
 
 }
