@@ -26,6 +26,9 @@ public class Config
 	static Spec users = new Spec(packageNameModel, packageNameParsing, "user",
 			"users");
 
+	static Spec tags = new Spec(packageNameModel, packageNameParsing, "tag",
+			"tags");
+
 	static {
 		users.defs.add(new Def("long", "id"));
 		users.defs.add(new Def("int", "reputation"));
@@ -39,6 +42,12 @@ public class Config
 		users.defs.add(new Def("int", "views"));
 		users.defs.add(new Def("int", "upVotes"));
 		users.defs.add(new Def("int", "downVotes"));
+
+		tags.defs.add(new Def("int", "id"));
+		tags.defs.add(new Def("String", "tagName"));
+		tags.defs.add(new Def("int", "count"));
+		tags.defs.add(new Def("int", "excerptPostId"));
+		tags.defs.add(new Def("int", "wikiPostId"));
 	}
 
 }

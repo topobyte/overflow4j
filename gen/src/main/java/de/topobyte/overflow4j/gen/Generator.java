@@ -47,6 +47,7 @@ public class Generator
 	public static void main(String[] args) throws IOException
 	{
 		generate(Config.users);
+		generate(Config.tags);
 	}
 
 	private static void generate(Spec spec) throws IOException
