@@ -20,6 +20,7 @@ package de.topobyte.overflow4j.gen;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +39,8 @@ import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
 import com.squareup.javapoet.TypeSpec.Builder;
 
+import de.topobyte.system.utils.SystemPaths;
+
 public class Generator
 {
 
@@ -48,15 +51,76 @@ public class Generator
 
 	private static void generate(Spec spec) throws IOException
 	{
-		generateModelClass(spec);
-		generateHandler(spec);
-		generateReader(spec);
+		Path main = SystemPaths.CWD.getParent();
+		Path core = main.resolve("core");
+		Path xml = main.resolve("xml");
+		Generator generator = new Generator(spec, core, xml);
+
+		generator.generate();
 	}
 
-	private static void generateModelClass(Spec spec) throws IOException
+	private Spec spec;
+	private Path core;
+	private Path xml;
+	private Path coreSrc;
+	private Path xmlSrc;
+
+	private String nameClassModel;
+	private String nameClassReader;
+	private String nameClassHandler;
+
+	private ClassName classModel;
+	private ClassName classReader;
+	private ClassName classHandler;
+	private ClassName classConsumer;
+
+	private Path pathModel;
+	private Path pathReader;
+	private Path pathHandler;
+
+	public Generator(Spec spec, Path core, Path xml)
 	{
-		String className = Defs.upperCamel(spec.name);
-		Builder builder = TypeSpec.classBuilder(className)
+		this.spec = spec;
+		this.core = core;
+		this.xml = xml;
+		coreSrc = core.resolve("src/main/java");
+		xmlSrc = xml.resolve("src/main/java");
+
+		nameClassModel = Defs.upperCamel(spec.name);
+		nameClassReader = Defs.upperCamel(spec.name) + "Reader";
+		nameClassHandler = Defs.upperCamel(spec.name) + "Handler";
+
+		classModel = ClassName
+				.bestGuess(spec.packageNameModel + "." + nameClassModel);
+		classReader = ClassName
+				.bestGuess(spec.packageNameParsing + "." + nameClassReader);
+		classHandler = ClassName
+				.bestGuess(spec.packageNameParsing + "." + nameClassHandler);
+		classConsumer = classHandler.nestedClass("Consumer");
+
+		pathModel = coreSrc.resolve(classFile(classModel));
+		pathReader = xmlSrc.resolve(classFile(classReader));
+		pathHandler = xmlSrc.resolve(classFile(classHandler));
+	}
+
+	private void generate() throws IOException
+	{
+		System.out.println("Generate: " + pathModel);
+		generateModelClass();
+		System.out.println("Generate: " + pathHandler);
+		generateHandler();
+		System.out.println("Generate: " + pathReader);
+		generateReader();
+	}
+
+	private String classFile(ClassName clazz)
+	{
+		return clazz.reflectionName().replaceAll("\\.", "/") + ".java";
+	}
+
+	private void generateModelClass() throws IOException
+	{
+		Builder builder = TypeSpec.classBuilder(nameClassModel)
 				.addModifiers(Modifier.PUBLIC);
 
 		for (Def def : spec.defs) {
@@ -77,17 +141,11 @@ public class Generator
 		JavaFile javaFile = JavaFile.builder(spec.packageNameModel, result)
 				.build();
 
-		javaFile.writeTo(System.out);
+		javaFile.writeTo(coreSrc);
 	}
 
-	private static void generateHandler(Spec spec) throws IOException
+	private void generateHandler() throws IOException
 	{
-		String className = Defs.upperCamel(spec.name) + "Handler";
-		String nameClassModel = Defs.upperCamel(spec.name);
-
-		ClassName classModel = ClassName
-				.bestGuess(spec.packageNameModel + "." + nameClassModel);
-
 		ClassName classDynamicSaxHandler = ClassName
 				.bestGuess("de.topobyte.xml.dynsax.DynamicSaxHandler");
 		ClassName classElement = ClassName
@@ -100,7 +158,7 @@ public class Generator
 		ClassName classChildType = ClassName
 				.bestGuess("de.topobyte.xml.dynsax.ChildType");
 
-		Builder builder = TypeSpec.classBuilder(className)
+		Builder builder = TypeSpec.classBuilder(nameClassHandler)
 				.addModifiers(Modifier.PUBLIC);
 
 		builder.superclass(classDynamicSaxHandler);
@@ -234,21 +292,12 @@ public class Generator
 		JavaFile javaFile = JavaFile.builder(spec.packageNameParsing, result)
 				.build();
 
-		javaFile.writeTo(System.out);
+		javaFile.writeTo(xmlSrc);
 	}
 
-	private static void generateReader(Spec spec) throws IOException
+	private void generateReader() throws IOException
 	{
-		String className = Defs.upperCamel(spec.name) + "Reader";
-		String nameClassHandler = Defs.upperCamel(spec.name) + "Handler";
-		String nameClassModel = Defs.upperCamel(spec.name);
-
-		ClassName classModel = ClassName
-				.bestGuess(spec.packageNameModel + "." + nameClassModel);
-		ClassName classHandler = ClassName.bestGuess(nameClassHandler);
-		ClassName classConsumer = classHandler.nestedClass("Consumer");
-
-		Builder builder = TypeSpec.classBuilder(className)
+		Builder builder = TypeSpec.classBuilder(nameClassReader)
 				.addModifiers(Modifier.PUBLIC);
 
 		builder.addSuperinterface(Closeable.class);
@@ -347,7 +396,7 @@ public class Generator
 		JavaFile javaFile = JavaFile.builder(spec.packageNameParsing, result)
 				.build();
 
-		javaFile.writeTo(System.out);
+		javaFile.writeTo(xmlSrc);
 	}
 
 }
