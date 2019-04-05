@@ -157,6 +157,7 @@ public class TypeGenerator
 
 		JavaFile.Builder javaFileBuilder = JavaFile
 				.builder(spec.packageNameModel, result);
+		javaFileBuilder.skipJavaLangImports(true);
 		FileComment.addFileComment(javaFileBuilder);
 		JavaFile javaFile = javaFileBuilder.build();
 
@@ -316,6 +317,7 @@ public class TypeGenerator
 
 		JavaFile.Builder javaFileBuilder = JavaFile
 				.builder(spec.packageNameParsing, result);
+		javaFileBuilder.skipJavaLangImports(true);
 		FileComment.addFileComment(javaFileBuilder);
 		JavaFile javaFile = javaFileBuilder.build();
 
@@ -422,6 +424,7 @@ public class TypeGenerator
 
 		JavaFile.Builder javaFileBuilder = JavaFile
 				.builder(spec.packageNameParsing, result);
+		javaFileBuilder.skipJavaLangImports(true);
 		FileComment.addFileComment(javaFileBuilder);
 		JavaFile javaFile = javaFileBuilder.build();
 

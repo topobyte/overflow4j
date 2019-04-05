@@ -132,6 +132,7 @@ public class UtilGenerator
 
 		JavaFile.Builder javaFileBuilder = JavaFile.builder(packageName,
 				result);
+		javaFileBuilder.skipJavaLangImports(true);
 		FileComment.addFileComment(javaFileBuilder);
 		JavaFile javaFile = javaFileBuilder.build();
 
