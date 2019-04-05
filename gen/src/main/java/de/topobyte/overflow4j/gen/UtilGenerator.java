@@ -130,7 +130,10 @@ public class UtilGenerator
 	{
 		TypeSpec result = builder.build();
 
-		JavaFile javaFile = JavaFile.builder(packageName, result).build();
+		JavaFile.Builder javaFileBuilder = JavaFile.builder(packageName,
+				result);
+		FileComment.addFileComment(javaFileBuilder);
+		JavaFile javaFile = javaFileBuilder.build();
 
 		javaFile.writeTo(xmlSrc);
 	}

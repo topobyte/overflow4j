@@ -155,8 +155,10 @@ public class TypeGenerator
 
 		TypeSpec result = builder.build();
 
-		JavaFile javaFile = JavaFile.builder(spec.packageNameModel, result)
-				.build();
+		JavaFile.Builder javaFileBuilder = JavaFile
+				.builder(spec.packageNameModel, result);
+		FileComment.addFileComment(javaFileBuilder);
+		JavaFile javaFile = javaFileBuilder.build();
 
 		javaFile.writeTo(coreSrc);
 	}
@@ -312,8 +314,10 @@ public class TypeGenerator
 
 		TypeSpec result = builder.build();
 
-		JavaFile javaFile = JavaFile.builder(spec.packageNameParsing, result)
-				.build();
+		JavaFile.Builder javaFileBuilder = JavaFile
+				.builder(spec.packageNameParsing, result);
+		FileComment.addFileComment(javaFileBuilder);
+		JavaFile javaFile = javaFileBuilder.build();
 
 		javaFile.writeTo(xmlSrc);
 	}
@@ -416,8 +420,10 @@ public class TypeGenerator
 
 		TypeSpec result = builder.build();
 
-		JavaFile javaFile = JavaFile.builder(spec.packageNameParsing, result)
-				.build();
+		JavaFile.Builder javaFileBuilder = JavaFile
+				.builder(spec.packageNameParsing, result);
+		FileComment.addFileComment(javaFileBuilder);
+		JavaFile javaFile = javaFileBuilder.build();
 
 		javaFile.writeTo(xmlSrc);
 	}
