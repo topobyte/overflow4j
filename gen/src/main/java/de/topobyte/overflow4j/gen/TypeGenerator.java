@@ -241,7 +241,7 @@ public class TypeGenerator
 				"row");
 		constructor.addCode("\n");
 
-		constructor.addStatement("$L.addChild(new $T($L, $T.LIST, true))",
+		constructor.addStatement("$L.addChild(new $T($L, $T.IGNORE, true))",
 				nameRootElement, classChild, nameRowlement, classChildType);
 		constructor.addCode("\n");
 

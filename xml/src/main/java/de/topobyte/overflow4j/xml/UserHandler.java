@@ -62,7 +62,7 @@ public class UserHandler extends DynamicSaxHandler
 		eUsers = new Element("users", false);
 		eRow = new Element("row", false);
 
-		eUsers.addChild(new Child(eRow, ChildType.LIST, true));
+		eUsers.addChild(new Child(eRow, ChildType.IGNORE, true));
 
 		eRow.addAttribute(ATTR_ID);
 		eRow.addAttribute(ATTR_REPUTATION);

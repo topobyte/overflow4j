@@ -48,7 +48,7 @@ public class TagHandler extends DynamicSaxHandler
 		eTags = new Element("tags", false);
 		eRow = new Element("row", false);
 
-		eTags.addChild(new Child(eRow, ChildType.LIST, true));
+		eTags.addChild(new Child(eRow, ChildType.IGNORE, true));
 
 		eRow.addAttribute(ATTR_ID);
 		eRow.addAttribute(ATTR_TAG_NAME);
