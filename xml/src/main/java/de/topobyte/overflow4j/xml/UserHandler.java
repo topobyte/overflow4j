@@ -14,7 +14,6 @@
 //
 // You should have received a copy of the GNU Lesser General Public License
 // along with overflow4j. If not, see <http://www.gnu.org/licenses/>.
-
 package de.topobyte.overflow4j.xml;
 
 import de.topobyte.overflow4j.model.User;
