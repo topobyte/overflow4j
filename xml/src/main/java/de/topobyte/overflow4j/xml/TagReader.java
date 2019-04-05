@@ -1,4 +1,4 @@
-// Copyright 2017 Sebastian Kuerten
+// Copyright 2017-2019 Sebastian Kuerten
 //
 // This file is part of overflow4j.
 //

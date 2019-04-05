@@ -67,7 +67,8 @@ public class FileComment
 
 	public static void addFileComment(Builder javaFileBuiler)
 	{
-		javaFileBuiler.addFileComment(FileComment.getCommentPattern(), "2017");
+		javaFileBuiler.addFileComment(FileComment.getCommentPattern(),
+				"2017-2019");
 	}
 
 }
