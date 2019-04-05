@@ -1,4 +1,4 @@
-// Copyright 2017 Sebastian Kuerten
+// Copyright 2019 Sebastian Kuerten
 //
 // This file is part of overflow4j.
 //
@@ -17,17 +17,23 @@
 
 package de.topobyte.overflow4j.cli;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
 
-public class TestPaths
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
+
+import de.topobyte.luqe.iface.QueryException;
+
+public class TestBuildUserDatabase
 {
 
-	public static Path pathInput = Paths.get("/tmp/stackoverflow");
-
-	public static Path pathInputUsers = pathInput.resolve("Users.xml");
-	public static Path pathInputTags = pathInput.resolve("Tags.xml");
-
-	public static Path pathUserDatabase = pathInput.resolve("users.sqlite");
+	public static void main(String[] args) throws IOException,
+			ParserConfigurationException, SAXException, QueryException
+	{
+		BuildUserDatabase task = new BuildUserDatabase(TestPaths.pathInputUsers,
+				TestPaths.pathUserDatabase);
+		task.execute();
+	}
 
 }

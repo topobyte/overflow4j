@@ -1,4 +1,4 @@
-// Copyright 2017 Sebastian Kuerten
+// Copyright 2019 Sebastian Kuerten
 //
 // This file is part of overflow4j.
 //
@@ -15,19 +15,34 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with overflow4j. If not, see <http://www.gnu.org/licenses/>.
 
-package de.topobyte.overflow4j.cli;
+package de.topobyte.overflow4j.db;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import de.topobyte.jsqltables.dialect.Dialect;
+import de.topobyte.jsqltables.dialect.SqliteDialect;
+import de.topobyte.luqe.iface.IConnection;
+import de.topobyte.luqe.iface.QueryException;
+import de.topobyte.overflow4j.model.User;
 
-public class TestPaths
+public class Dao
 {
 
-	public static Path pathInput = Paths.get("/tmp/stackoverflow");
+	private Dialect dialect = new SqliteDialect();
 
-	public static Path pathInputUsers = pathInput.resolve("Users.xml");
-	public static Path pathInputTags = pathInput.resolve("Tags.xml");
+	private Inserter inserter;
 
-	public static Path pathUserDatabase = pathInput.resolve("users.sqlite");
+	public Dao(IConnection connection)
+	{
+		inserter = new Inserter(connection, dialect);
+	}
+
+	public Dialect getDialect()
+	{
+		return dialect;
+	}
+
+	public void insertUser(User user) throws QueryException
+	{
+		inserter.insertUser(user);
+	}
 
 }

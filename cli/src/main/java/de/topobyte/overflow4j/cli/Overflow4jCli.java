@@ -38,6 +38,9 @@ public class Overflow4jCli
 					RunShowUsers.class);
 			options.addCommand("show-tags", RunShowTags.OPTIONS_FACTORY,
 					RunShowTags.class);
+			options.addCommand("build-user-database",
+					RunBuildUserDatabase.OPTIONS_FACTORY,
+					RunBuildUserDatabase.class);
 			return options;
 		}
 
